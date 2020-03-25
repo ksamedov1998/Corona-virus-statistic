@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .red_field {
+            background: #ff2d16;
+        }
+
+        .green_field {
+            background: #189c07;
+        }
+
+        .yellow_field {
+            background: #fcff35;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <form   name="search" method="get" action="/stat/country">
+        <div class="md-form mt-0 col-lg-4 col-md-8 col-sm-12 mb-3">
+            <input  type="text"  name="country" placeholder="Search">
+        </div>
+            <input type="submit" class="btn btn-outline-secondary col-lg-2 col-md-2 col-sm-12 mb-3" th:text="Search">
+    </form>
+    </div>
+
+    <table class="table">
+        <thead>
+        <th scope="col">Country</th>
+        <th scope="col">Cases</th>
+        <th scope="col">Active cases</th>
+        <th scope="col">New cases</th>
+        <th scope="col">Deaths</th>
+        <th scope="col">New Deaths</th>
+        <th scope="col">Critical cases</th>
+        <th scope="col">Total recovered</th>
+        <th scope="col">Total cases / 1m population</th>
+        </thead>
+        <tr th:each="item : ${data.getCountries_stat()}">
+            <td th:text="${item.country_name}"></td>
+            <td th:text="${item.cases}"></td>
+            <td th:text="${item.active_cases}"></td>
+
+
+            <span th:if="${item.new_cases}!=0 " >
+                  <td th:text="'+'+${item.new_cases}" class="yellow_field" ></td>
+            </span>
+            <span th:unless="${item.new_cases}!=0 ">
+            <td th:text="${item.new_cases}"  ></td>
+            </span>
+
+            <td th:text="${item.deaths}"></td>
+
+
+            <span th:if="${item.new_deaths}!=0 " >
+                  <td th:text="'+'+${item.new_deaths}" class="red_field" ></td>
+            </span>
+            <span th:unless="${item.new_deaths}!=0 ">
+            <td th:text="${item.new_deaths}"  ></td>
+            </span>
+
+            <td th:text="${item.serious_critical}"></td>
+
+            <span th:if="${item.total_recovered}!=0 " >
+                  <td th:text="'+'+${item.total_recovered}" class="green_field" ></td>
+            </span>
+            <span th:unless="${item.total_recovered}!=0 ">
+            <td th:text="${item.total_recovered}"  ></td>
+            </span>
+
+            <td th:text="${item.total_cases_per_1m_population}"></td>
+        </tr>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+</div>
+</body>
+</html>
