@@ -22,14 +22,14 @@
 </head>
 <body>
 <div class="container">
-        <div class="row">
-            <a href="/stat/" class="btn btn-outline-secondary col-lg-2 col-md-2 col-sm-12 mb-3" th:text="Main"></a>
+    <div class="row">
+        <a href="/stat/" class="btn btn-outline-secondary col-lg-2 col-md-2 col-sm-12 mb-3" th:text="Main"></a>
     </div>
 
     <table class="table">
         <thead>
         <th scope="col">Country</th>
-        <th scope="col">Cases</th>
+        <th scope="col">Total Cases</th>
         <th scope="col">Active cases</th>
         <th scope="col">New cases</th>
         <th scope="col">Deaths</th>
@@ -39,33 +39,39 @@
         <th scope="col">Total cases / 1m population</th>
         </thead>
         <tr>
+
+<!--            <th scope="col">Country</th>-->
             <td th:text="${data.country_name}"></td>
+<!--            <th scope="col">Cases</th>-->
             <td th:text="${data.total_cases}"></td>
+<!--            <th scope="col">Active cases</th>-->
             <td th:text="${data.active_cases}"></td>
 
-            <span th:if="${data.new_cases}!=0 " >
-                  <td th:text="'+'+${data.new_cases}" class="yellow_field" ></td>
+            <!--            <th scope="col">New cases</th>-->
+            <span th:if="${!data.new_cases.isBlank()}">
+                  <td th:text="'+'+${data.new_cases}" class="yellow_field"></td>
             </span>
-            <span th:unless="${data.new_cases}!=0 ">
-            <td th:text="${data.new_cases}"  ></td>
-            </span>
-
-            <span th:if="${data.new_deaths}!=0 " >
-                  <td th:text="'+'+${data.new_deaths}" class="red_field" ></td>
-            </span>
-            <span th:unless="${data.new_deaths}!=0 ">
-            <td th:text="${data.new_deaths}"  ></td>
+            <span th:unless="${!data.new_cases.isBlank()} ">
+            <td></td>
             </span>
 
+<!--            <th scope="col">Deaths</th>-->
+            <td th:text="${data.total_deaths}"></td>
+<!--            <th scope="col">New Deaths</th>-->
+            <span th:if="${!data.new_deaths.isBlank()}">
+                  <td th:text="'+'+${data.new_deaths}" class="red_field"></td>
+            </span>
+
+            <span th:unless="${!data.new_deaths.isBlank()}">
+            <td></td>
+            </span>
+
+<!--            <th scope="col">Critical cases</th>-->
             <td th:text="${data.serious_critical}"></td>
+<!--            <th scope="col">Total recovered</th>-->
+                  <td th:text="${data.total_recovered}" ></td>
 
-            <span th:if="${data.total_recovered}!=0 " >
-                  <td th:text="'+'+${data.total_recovered}" class="green_field" ></td>
-            </span>
-            <span th:unless="${data.total_recovered}!=0 ">
-            <td th:text="${data.total_recovered}"  ></td>
-            </span>
-
+<!--            <th scope="col">Total cases / 1m population</th>-->
             <td th:text="${data.total_cases_per1m}"></td>
         </tr>
     </table>

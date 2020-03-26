@@ -1,6 +1,6 @@
 package io.counterapp.demo.controller;
 
-import io.service.api_client.service.WebServiceImp;
+import io.service.api_client.service.Implementations.WebServiceImp;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +22,7 @@ public class WebController {
         return  modelAndView;
     }
 
-    @GetMapping(value = "/country")
+    @GetMapping(value = "/by")
     public ModelAndView getCountryInfo(@RequestParam String country){
         ModelAndView modelAndView= new ModelAndView();
         modelAndView.setViewName("country");

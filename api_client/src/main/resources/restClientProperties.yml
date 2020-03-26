@@ -2,5 +2,6 @@ client:
       URL:
             allCountry: "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php"
             singleCountry: "https://coronavirus-monitor.p.rapidapi.com/coronavirus/latest_stat_by_country.php"
+            countryNames: "https://coronavirus-monitor.p.rapidapi.com/coronavirus/affected.php"
       host: "coronavirus-monitor.p.rapidapi.com"
       apiKey: "1c0da3282emsh6acd25e139d5c30p1259f1jsnfa0b5c10de82"

@@ -3,12 +3,14 @@ package io.service.api_client.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Component
+@ToString
 public class SingleCountryInfo {
     /* {
     "country":"Azerbaijan",
@@ -25,6 +27,7 @@ public class SingleCountryInfo {
     @Getter
     @Setter
     @NoArgsConstructor
+    @ToString
     public static class CountyLatestData {
         /*
         * "id":"171481",

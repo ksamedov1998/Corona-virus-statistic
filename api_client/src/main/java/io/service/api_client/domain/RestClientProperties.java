@@ -20,6 +20,9 @@ public class RestClientProperties{
     @Value("${client.URL.allCountry}")
     private  String  allCountryURL;
 
+    @Value("${client.URL.countryNames}")
+    private String countryNames;
+
     @Value("${client.URL.singleCountry}")
     private  String  singleCountryURL;
 
@@ -28,5 +31,6 @@ public class RestClientProperties{
 
     @Value("${client.apiKey}")
     private String apiKey;
+
 
 }

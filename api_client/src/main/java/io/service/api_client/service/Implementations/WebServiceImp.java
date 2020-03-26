@@ -1,10 +1,11 @@
-package io.service.api_client.service;
+package io.service.api_client.service.Implementations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.service.api_client.domain.AllCountriesDataWrapper;
 import io.service.api_client.domain.RestClientProperties;
 import io.service.api_client.domain.SingleCountryInfo;
 import io.service.api_client.domain.WebClientImp;
+import io.service.api_client.service.WebService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @Service
-public class WebServiceImp {
+public class WebServiceImp implements WebService {
     @Autowired
     private  RestClientProperties properties;
     @Autowired
@@ -41,6 +42,8 @@ public class WebServiceImp {
                 .retrieve()
                     .bodyToMono(String.class)
                 .block();
+        System.out.println(objectMapper.readValue(data,SingleCountryInfo.class));
         return objectMapper.readValue(data,SingleCountryInfo.class);
     }
+
 }
