@@ -1,5 +1,6 @@
 package io.counterapp.demo.controller;
 
+import io.service.api_client.domain.TotalStatistic;
 import io.service.api_client.service.Implementations.WebServiceImp;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,11 @@ public class WebController {
         modelAndView.setViewName("country");
         modelAndView.addObject("data", webServiceImp.getCountryInfo(country).getLatest_stat_by_country()[0]);
         return  modelAndView;
+    }
+
+    @ResponseBody
+    @GetMapping("/total")
+    public TotalStatistic getTotalStat(){
+        return webServiceImp.getTotalStat();
     }
 }

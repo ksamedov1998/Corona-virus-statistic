@@ -1,10 +1,7 @@
 package io.service.api_client.service.Implementations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.service.api_client.domain.AllCountriesDataWrapper;
-import io.service.api_client.domain.RestClientProperties;
-import io.service.api_client.domain.SingleCountryInfo;
-import io.service.api_client.domain.WebClientImp;
+import io.service.api_client.domain.*;
 import io.service.api_client.service.WebService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,16 @@ public class WebServiceImp implements WebService {
                 .block();
         System.out.println(objectMapper.readValue(data,SingleCountryInfo.class));
         return objectMapper.readValue(data,SingleCountryInfo.class);
+    }
+
+    @SneakyThrows
+    public TotalStatistic getTotalStat() {
+        String data=  webClient.getWebClient().get()
+                .uri(URI.create(properties.getTotalStatistic()))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        return objectMapper.readValue(data,TotalStatistic.class);
     }
 
 }

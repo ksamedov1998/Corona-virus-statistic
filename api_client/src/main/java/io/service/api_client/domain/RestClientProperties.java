@@ -26,11 +26,13 @@ public class RestClientProperties{
     @Value("${client.URL.singleCountry}")
     private  String  singleCountryURL;
 
+    @Value("${client.URL.totalStatistic}")
+    private String totalStatistic;
+
     @Value("${client.host}")
     private String host;
 
     @Value("${client.apiKey}")
     private String apiKey;
-
 
 }
