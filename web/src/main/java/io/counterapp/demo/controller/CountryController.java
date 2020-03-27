@@ -20,7 +20,7 @@ public class CountryController {
     }
 
     @GetMapping(value = "/history")
-    public CountryHistory getDataPerDay(){
-        return countryService.getCountryDataByDate("Azerbaijan");
+    public CountryHistory getDataPerDay(@RequestParam(value = "country") String country){
+        return countryService.getCountryDataByDate(country);
     }
 }

@@ -9,9 +9,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class CountryServiceImp  implements CountryService {
@@ -55,42 +58,20 @@ public class CountryServiceImp  implements CountryService {
 
         CountryHistory countryHistory =objectMapper.readValue(data, CountryHistory.class);
 
-        countryHistory.setLastestData(sumStatPerDay(countryHistory));
+        countryHistory.setLastestData(splitDataPerDay(countryHistory));
         return countryHistory;
     }
 
-    private static CountryStatWithRecordDate[] sumStatPerDay(CountryHistory history){
-        List<CountryStatWithRecordDate> countyStat= Arrays.stream(history.getLastestData()).collect(Collectors.toList());
-        CountryStatWithRecordDate todayData;
-        CountryStatWithRecordDate comparedDate;
-        for(int i=0,j=1;i<countyStat.size() && j<countyStat.size();){
-            todayData=countyStat.get(i);
-            comparedDate=countyStat.get(j);
-            if(todayData.getRecord_date().until(comparedDate.getRecord_date(),ChronoUnit.DAYS)==0){
+    private static CountryStatWithRecordDate[] splitDataPerDay(CountryHistory history){
+        List<CountryStatWithRecordDate> countyStat= new ArrayList<>();
+        CountryStatWithRecordDate d1;
+        CountryStatWithRecordDate d2;
 
-                todayData.setActive_cases(todayData.getActive_cases()+comparedDate.getActive_cases());
-
-                todayData.setNew_cases(todayData.getNew_cases()+comparedDate.getNew_cases());
-
-                todayData.setNew_deaths(todayData.getNew_deaths()+comparedDate.getNew_deaths());
-
-                todayData.setSerious_critical(todayData.getSerious_critical()+comparedDate.getSerious_critical());
-
-                todayData.setTotal_cases(todayData.getTotal_cases()+comparedDate.getTotal_cases());
-
-                todayData.setTotal_cases_per1m(todayData.getTotal_cases_per1m()+comparedDate.getTotal_cases_per1m());
-
-                todayData.setTotal_deaths(todayData.getTotal_deaths()+comparedDate.getTotal_deaths());
-
-                todayData.setTotal_recovered(todayData.getTotal_recovered()+comparedDate.getTotal_recovered());
-
-                todayData.setRecord_date(comparedDate.getRecord_date());
-
-                countyStat.remove(i+1);
-                j++;
-            }else{
-                i++;
-                j++;
+        for(int i=0;i<history.getLastestData().length-1;i++){
+            d1=history.getLastestData()[i];
+            d2=history.getLastestData()[i+1];
+            if(d2.getRecord_date().truncatedTo(DAYS).until(d1.getRecord_date().truncatedTo(DAYS),DAYS)!=0){
+                countyStat.add(d1);
             }
         }
         return  countyStat.stream().toArray(CountryStatWithRecordDate[]::new);

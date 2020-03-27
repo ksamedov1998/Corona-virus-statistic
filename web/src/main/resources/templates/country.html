@@ -3,6 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
@@ -39,11 +40,11 @@
         </thead>
         <tr>
 
-<!--            <th scope="col">Country</th>-->
-            <td th:text="${data.country_name}"></td>
-<!--            <th scope="col">Cases</th>-->
-            <td th:text="${data.total_cases}"></td>
-<!--            <th scope="col">Active cases</th>-->
+            <!--            <th scope="col">Country</th>-->
+            <td id="country_name" th:text="${data.country_name}"></td>
+            <!--            <th scope="col">Cases</th>-->
+            <td id="total_case" th:text="${data.total_cases}"></td>
+            <!--            <th scope="col">Active cases</th>-->
             <td th:text="${data.active_cases}"></td>
 
             <!--            <th scope="col">New cases</th>-->
@@ -54,9 +55,9 @@
             <td></td>
             </span>
 
-<!--            <th scope="col">Deaths</th>-->
+            <!--            <th scope="col">Deaths</th>-->
             <td th:text="${data.total_deaths}"></td>
-<!--            <th scope="col">New Deaths</th>-->
+            <!--            <th scope="col">New Deaths</th>-->
             <span th:if="${!data.new_deaths.isBlank()}">
                   <td th:text="'+'+${data.new_deaths}" class="red_field"></td>
             </span>
@@ -65,25 +66,90 @@
             <td></td>
             </span>
 
-<!--            <th scope="col">Critical cases</th>-->
+            <!--            <th scope="col">Critical cases</th>-->
             <td th:text="${data.serious_critical}"></td>
-<!--            <th scope="col">Total recovered</th>-->
-                  <td th:text="${data.total_recovered}" ></td>
+            <!--            <th scope="col">Total recovered</th>-->
+            <td th:text="${data.total_recovered}"></td>
 
-<!--            <th scope="col">Total cases / 1m population</th>-->
+            <!--            <th scope="col">Total cases / 1m population</th>-->
             <td th:text="${data.total_cases_per1m}"></td>
         </tr>
     </table>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    <div class="row">
+        <canvas class="col-lg-6" id="total_cases"></canvas>
+        <canvas class="col-lg-6" id="new_deaths"></canvas>
+    </div>
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(() => {
+            let ctTotalCases = document.getElementById('total_cases').getContext('2d');
+            let cNewDeaths = document.getElementById('new_deaths').getContext('2d');
+            $.ajax({
+                data: {
+                    "country": $("#country_name").text()
+                },
+                url: location.origin + "/country/history",
+                success: function (data) {
+                    console.log(data);
+                    let statArray = data.stat_by_country;
+
+                    let labelArray = [];
+                    let totalCaseData = [];
+                    let newDeaths = [];
+
+                    statArray.forEach(item => {
+                        labelArray.push(item.record_date.toString().substring(0,10))
+                    });
+
+
+                    statArray.forEach(item => {
+                        newDeaths.push(item.new_deaths.replace(",",""))
+                    });
+
+
+                    statArray.forEach(item => {
+                        totalCaseData.push(item.new_cases.replace(",",""))
+                    });
+
+                    createGraph(ctTotalCases,totalCaseData,labelArray,'New cases','#fcff35');
+                    createGraph(cNewDeaths,newDeaths,labelArray,'New Deaths','#ff2d16');
+
+                },
+                error: function () {
+                }
+            });
+        })
+        function createGraph(canvarElement,dataArray,labelArray,label,color){
+            let chart = new Chart(canvarElement, {
+                // The type of chart we want to create
+                type: 'line',
+                // The data for our dataset
+                scaleOverride : true,
+
+                data: {
+                    labels: labelArray,
+                    datasets: [{
+                        label: label,
+                        backgroundColor: color,
+                        borderColor: color,
+                        data: dataArray
+                    }]
+                },
+            });
+        }
+    </script>
 </div>
 </body>
 </html>
