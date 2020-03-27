@@ -7,13 +7,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientImp {
     private WebClient webClient;
 
-    private RestClientProperties restClientProperties;
+    private Properties properties;
 
-    public WebClientImp(RestClientProperties restClientProperties) {
-        this.restClientProperties=restClientProperties;
+    public WebClientImp(Properties properties) {
+        this.properties = properties;
         webClient=WebClient.builder()
-                    .defaultHeader("x-rapidapi-host", restClientProperties.getHost())
-                    .defaultHeader("x-rapidapi-key", restClientProperties.getApiKey())
+                    .codecs(clientCodecConfigurer -> clientCodecConfigurer.defaultCodecs().maxInMemorySize(3000000))
+                    .defaultHeader("x-rapidapi-host", properties.getHost())
+                    .defaultHeader("x-rapidapi-key", properties.getApiKey())
                     .build();
     }
 

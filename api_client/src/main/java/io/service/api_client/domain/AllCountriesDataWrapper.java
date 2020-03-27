@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 public class AllCountriesDataWrapper {
-    private CountryData[] countries_stat;
+    private CountryCommonData[] countries_stat;
     private String statistic_taken_at;
 //    public AllCountriesDataWrapper organizeData() {
 //        Map<String,CountryData> countryData= new HashMap<>();

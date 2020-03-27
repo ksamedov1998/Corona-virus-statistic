@@ -4,15 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class CountryData {
+public class CountryCommonData {
 
     private String country_name;
     private String region;

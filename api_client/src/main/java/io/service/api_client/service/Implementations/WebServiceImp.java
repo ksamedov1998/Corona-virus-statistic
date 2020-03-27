@@ -13,7 +13,7 @@ import java.net.URI;
 @Service
 public class WebServiceImp implements WebService {
     @Autowired
-    private  RestClientProperties properties;
+    private Properties properties;
     @Autowired
     private  WebClientImp webClient;
     @Autowired

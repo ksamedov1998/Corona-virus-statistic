@@ -15,13 +15,16 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 @PropertySource(factory = YamlPropertyFactory.class,value = "classpath:restClientProperties.yml")
-public class RestClientProperties{
+public class Properties {
 
     @Value("${client.URL.allCountry}")
     private  String  allCountryURL;
 
     @Value("${client.URL.countryNames}")
     private String countryNames;
+
+    @Value("${client.URL.countryHistory}")
+    private String countryHistory;
 
     @Value("${client.URL.singleCountry}")
     private  String  singleCountryURL;
