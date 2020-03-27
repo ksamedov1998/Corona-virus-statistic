@@ -1,2 +1,3 @@
 # Corona-virus-counter
-# Corona-virus-statistic
+
+<img src="image.png">
