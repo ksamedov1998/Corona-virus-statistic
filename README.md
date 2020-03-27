@@ -1,7 +1,7 @@
 # Corona-virus-counter
 
 <h1>About</h1>
-Simple app for covid19 cases and all information from world. Contains else than it searching which is select component and it get information from API via rest service with total infomation from all over the world. 
+Simple app for covid19 cases and all information from world. Contains additionally  searching which is select component and it get information from API via rest service with total infomation from all over the world. 
                  
 <t1>Tech stack</h1>
 <ul>
